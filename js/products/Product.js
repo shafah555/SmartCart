@@ -13,6 +13,10 @@ class Product {
     if (!Number.isInteger(quantity) || quantity <= 0) throw new Error('Quantity must be a whole number above zero.');
     this.#quantity = quantity;
   }
+  setStock(quantity) {
+    if (!Number.isInteger(quantity) || quantity < 0) throw new Error('Stock cannot be negative.');
+    this.#quantity = quantity;
+  }
   get subtotal() { return this.#price * this.#quantity; }
   get category() { throw new Error('category not implemented'); }
   accept(visitor) { throw new Error('accept() not implemented'); }

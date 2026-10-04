@@ -110,3 +110,89 @@ dt { color:var(--muted); } dd { margin:0; font-weight:600; text-align:right; }
   .ops .primary { flex-basis:100%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior:auto !important; transition:none !important; } }
+
+/* Commerce management workspace */
+.site-header { max-width:1320px; align-items:center; }
+.main-nav { display:flex; flex-wrap:wrap; gap:1.15rem; }
+.main-nav a { color:var(--muted); font-size:.83rem; font-weight:700; text-decoration:none; }
+.main-nav a:hover, .main-nav a:focus-visible { color:var(--accent); }
+main.workspace { max-width:1320px; display:grid; grid-template-columns:minmax(0,1fr); gap:1.2rem; }
+.dashboard-section { padding:.2rem 0 .4rem; }
+.dashboard-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:.8rem; }
+.dashboard-heading h2 { font-size:1.55rem; }
+.dashboard-heading .secondary { white-space:nowrap; }
+.metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.7rem; }
+.metric { display:grid; align-content:start; gap:.2rem; min-height:116px; padding:.9rem 1rem; border:1px solid var(--line); border-radius:6px; background:var(--surface); }
+.metric > span { color:var(--muted); font-size:.75rem; font-weight:600; }
+.metric strong { font:700 1.7rem/1.2 Georgia, "Times New Roman", serif; font-variant-numeric:tabular-nums; }
+.metric small { color:var(--muted); font-size:.7rem; }
+.metric-alert strong { color:var(--accent); }
+.inventory-workspace { display:grid; grid-template-columns:minmax(250px,.68fr) minmax(0,1.8fr); gap:1.1rem; align-items:start; }
+.inventory-panel, .form-panel, .cart-panel, .checkout-panel { min-width:0; }
+.inventory-tools { grid-template-columns:minmax(160px,1fr) minmax(150px,.45fr); }
+.orders-tools { grid-template-columns:minmax(200px,1fr) minmax(150px,.35fr); }
+.inventory-scroll { max-height:500px; overflow:auto; }
+thead th { position:sticky; top:0; z-index:1; background:var(--surface); }
+textarea { min-width:0; width:100%; resize:vertical; padding:.55rem .7rem; border:1px solid var(--line); border-radius:5px; background:#fbfcfa; color:var(--ink); font:inherit; font-size:.88rem; }
+textarea:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.optional { display:inline; color:#96a19b; font-size:.7rem; font-weight:400; }
+.order-workspace { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr); gap:1.1rem; align-items:start; }
+.checkout-panel form { gap:.75rem; }
+.checkout-summary { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.8rem 0; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem; }
+.checkout-summary strong { color:var(--ink); font:700 1.25rem/1.2 Georgia, "Times New Roman", serif; font-variant-numeric:tabular-nums; }
+.checkout-panel form > .primary { width:100%; min-height:44px; }
+.demo-note { margin:0; color:var(--muted); font-size:.7rem; text-align:center; }
+.inventory-actions { display:flex; align-items:center; gap:.2rem; }
+.inventory-actions > button { min-height:31px; padding:.35rem .5rem; white-space:nowrap; font-size:.72rem; }
+.inventory-actions .link { min-height:30px; font-size:.7rem; }
+.inventory-actions button:disabled, button.primary:disabled { opacity:.45; cursor:not-allowed; }
+.inventory-actions button:disabled:hover, button.primary:disabled:hover { border-color:var(--line); background:var(--surface); }
+.stock-control { gap:.25rem; }
+.stock-control button { width:24px; min-height:24px; height:24px; }
+.stock-value { min-width:1.5rem; text-align:center; font-variant-numeric:tabular-nums; }
+.stock-value.low-stock { color:var(--bad); font-weight:700; }
+.status-select { min-height:32px; padding:.3rem 1.5rem .3rem .45rem; font-size:.75rem; font-weight:700; }
+.status-processing, .status-pending { border-color:#e8d29e; background:#fff9e9; color:#795a16; }
+.status-shipped { border-color:#bed0e6; background:#f0f6fc; color:#365b84; }
+.status-delivered { border-color:#b5d5c0; background:#eff8f1; color:#286744; }
+.status-cancelled { border-color:#e5c0ba; background:#fff2ef; color:#963b20; }
+.orders-panel, .analysis-panel { width:100%; }
+.orders-panel .scroll { overflow:auto; }
+.orders-panel table { min-width:690px; }
+.analysis-panel .ops { margin-top:0; padding-top:0; border-top:0; }
+.analysis-panel #output { margin-top:1rem; }
+.analysis-panel .result + .result { margin-top:1.4rem; }
+@media (max-width:1000px) {
+  .inventory-workspace { grid-template-columns:minmax(220px,.65fr) minmax(0,1.35fr); }
+  .order-workspace { grid-template-columns:minmax(0,1.2fr) minmax(265px,.8fr); }
+  .site-header, main.workspace { padding-left:1.25rem; padding-right:1.25rem; }
+  .main-nav { gap:.7rem; }
+  .table-tools { grid-template-columns:1fr; }
+  .inventory-tools, .orders-tools { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:760px) {
+  .site-header { align-items:flex-start; flex-direction:column; gap:1rem; }
+  .main-nav { width:100%; justify-content:space-between; padding-top:.4rem; border-top:1px solid var(--line); }
+  .inventory-workspace, .order-workspace { grid-template-columns:minmax(0,1fr); }
+  .metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .inventory-panel { grid-row:1; }
+  .form-panel { grid-row:2; }
+  .inventory-scroll { max-height:none; }
+  .table-tools { grid-template-columns:1fr; }
+}
+@media (max-width:520px) {
+  .site-header, main.workspace { padding-left:.8rem; padding-right:.8rem; }
+  .dashboard-heading { align-items:flex-start; flex-direction:column; }
+  .dashboard-heading .secondary { width:100%; }
+  .metric { min-height:102px; padding:.75rem; }
+  .metric strong { font-size:1.45rem; }
+  .inventory-panel, .orders-panel, .analysis-panel, .checkout-panel { padding:1rem; }
+  .inventory-scroll, .orders-panel .scroll { overflow-x:auto; }
+  .inventory-panel table { min-width:650px; }
+  .inventory-tools, .orders-tools { grid-template-columns:1fr; }
+  .cart-heading-actions { align-items:flex-end; flex-direction:column; }
+  .cart-panel .scroll { overflow-x:auto; }
+  .cart-panel table { min-width:680px; }
+  .ops button { flex:1 1 calc(50% - .5rem); }
+  .ops .primary { flex-basis:100%; }
+}

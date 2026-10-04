@@ -4,44 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4f5f0">
-  <meta name="description" content="A polished shopping cart demo powered by the Visitor design pattern.">
-  <title>Cart | Store Operations Demo</title>
+  <meta name="description" content="A local e-commerce management workspace for inventory, checkout, orders, and visitor-based pricing analysis.">
+  <title>Cart | Commerce Management</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="site-header">
     <div>
-      <p class="eyebrow">STORE OPERATIONS / DEMO</p>
+      <p class="eyebrow">COMMERCE MANAGEMENT</p>
       <h1>Cart<span>.</span></h1>
-      <p class="intro">A considered way to manage products, pricing and order analysis.</p>
+      <p class="intro">Inventory, checkout and order operations in one workspace.</p>
     </div>
-    <div class="header-note"><span class="status-dot"></span> Visitor pattern active</div>
+    <nav class="main-nav" aria-label="Workspace navigation">
+      <a href="#dashboard">Overview</a><a href="#inventory">Inventory</a><a href="#orders">Orders</a><a href="#analysis">Analysis</a>
+    </nav>
   </header>
 
-  <main>
-    <section class="panel">
-      <div class="section-heading"><div><p class="eyebrow">INVENTORY</p><h2>Add a product</h2></div></div>
+  <main class="workspace">
+    <section id="dashboard" class="dashboard-section" aria-label="Store overview">
+      <div class="dashboard-heading"><div><p class="eyebrow">STORE OVERVIEW</p><h2>Store performance</h2></div><button type="button" id="demo" class="secondary">Load sample inventory</button></div>
+      <div class="metrics" aria-live="polite">
+        <article class="metric"><span>Net order value</span><strong id="metricRevenue">0.00</strong><small>Excludes cancelled orders</small></article>
+        <article class="metric"><span>Orders</span><strong id="metricOrders">0</strong><small id="metricOrderNote">No orders yet</small></article>
+        <article class="metric"><span>Products in catalog</span><strong id="metricProducts">0</strong><small id="metricUnits">0 units in stock</small></article>
+        <article class="metric metric-alert"><span>Low stock</span><strong id="metricLowStock">0</strong><small>3 units or fewer</small></article>
+      </div>
+    </section>
+
+    <section id="inventory" class="inventory-workspace">
+      <section class="panel form-panel">
+      <div class="section-heading"><div><p class="eyebrow">CATALOG</p><h2>Add a product</h2></div></div>
       <form id="addForm" novalidate>
         <label>Type
           <select id="type"><option>Book</option><option>Electronics</option><option>Clothing</option><option>Grocery</option></select>
         </label>
         <label>Product ID<input id="id" type="text" placeholder="e.g. B005" autocomplete="off"></label>
         <label>Product name<input id="name" type="text" placeholder="Enter a product name" autocomplete="off"></label>
+        <label>Product photo URL <span class="optional">Optional</span><input id="imageUrl" type="url" placeholder="https://example.com/photo.jpg" autocomplete="url"></label>
         <div class="field-row">
-          <label>Price<input id="price" type="number" step="any" min="0" placeholder="0.00"></label>
-          <label>Quantity<input id="qty" type="number" step="1" min="1" placeholder="1"></label>
+          <label>Unit price<input id="price" type="number" step="any" min="0" placeholder="0.00"></label>
+          <label>Opening stock<input id="qty" type="number" step="1" min="1" placeholder="1"></label>
         </div>
         <div id="extra" class="extra"></div>
         <div class="actions">
-          <button type="submit" class="primary">Add product</button>
-          <button type="button" id="demo" class="secondary">Load demo</button>
+          <button id="productSubmit" type="submit" class="primary">Add product</button>
+          <button id="cancelEdit" type="button" class="secondary" hidden>Cancel edit</button>
         </div>
       </form>
+      </section>
+
+      <section class="panel inventory-panel">
+        <div class="section-heading"><div><p class="eyebrow">PRODUCTS</p><h2>Inventory</h2></div><span class="count-badge" id="inventoryCount">0 products</span></div>
+        <div class="table-tools inventory-tools">
+          <label><span class="sr-only">Search inventory</span><input id="inventorySearch" type="search" placeholder="Search inventory" autocomplete="off"></label>
+          <label><span class="sr-only">Filter inventory category</span><select id="inventoryCategory"><option value="">All categories</option><option>Book</option><option>Electronics</option><option>Clothing</option><option>Grocery</option></select></label>
+        </div>
+        <div class="scroll inventory-scroll">
+          <table>
+            <thead><tr><th>Product</th><th>Category</th><th class="n">Price</th><th class="n">In stock</th><th></th></tr></thead>
+            <tbody id="inventoryBody"></tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
-    <section class="panel cart-panel">
+    <section id="checkout" class="order-workspace">
+      <section class="panel cart-panel">
       <div class="section-heading cart-heading">
-        <div><p class="eyebrow">CURRENT ORDER</p><h2>Shopping cart</h2></div>
+        <div><p class="eyebrow">NEW ORDER</p><h2>Shopping cart</h2></div>
         <div class="cart-heading-actions"><span class="count-badge" id="productCount">0 products</span><button type="button" id="btnClearCart" class="link">Clear cart</button></div>
       </div>
       <div class="summary" aria-live="polite">
@@ -59,6 +89,38 @@
           <tbody id="cartBody"></tbody>
         </table>
       </div>
+      </section>
+
+      <section class="panel checkout-panel">
+        <div class="section-heading"><div><p class="eyebrow">CUSTOMER & PAYMENT</p><h2>Complete order</h2></div></div>
+        <form id="checkoutForm">
+          <label>Customer name<input id="customerName" name="customerName" required autocomplete="name" placeholder="Full name"></label>
+          <label>Email address<input id="customerEmail" name="customerEmail" required type="email" autocomplete="email" placeholder="name@example.com"></label>
+          <label>Delivery address<textarea id="customerAddress" name="customerAddress" required autocomplete="street-address" rows="2" placeholder="Street, city, postal code"></textarea></label>
+          <label>Payment method<select id="paymentMethod"><option>Pay on delivery</option><option>Card (simulated)</option><option>Bank transfer (simulated)</option></select></label>
+          <div class="checkout-summary"><span>Estimated order total</span><strong id="checkoutTotal">0.00</strong></div>
+          <button type="submit" id="placeOrder" class="primary">Place order</button>
+          <p class="demo-note">Demo checkout. No payment is processed.</p>
+        </form>
+      </section>
+    </section>
+
+    <section id="orders" class="panel orders-panel">
+      <div class="section-heading"><div><p class="eyebrow">FULFILLMENT</p><h2>Order management</h2></div><span class="count-badge" id="ordersCount">0 orders</span></div>
+      <div class="table-tools orders-tools">
+        <label><span class="sr-only">Search orders</span><input id="orderSearch" type="search" placeholder="Search orders or customers" autocomplete="off"></label>
+        <label><span class="sr-only">Filter order status</span><select id="orderStatusFilter"><option value="">All statuses</option><option>Pending</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></label>
+      </div>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Items</th><th class="n">Total</th><th>Status</th></tr></thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="analysis" class="panel analysis-panel" aria-live="polite">
+      <div class="section-heading"><div><p class="eyebrow">VISITOR DESIGN PATTERN</p><h2>Pricing & order analysis</h2></div></div>
       <div class="actions ops">
         <button id="btnDiscount">Discounts</button>
         <button id="btnTax">Taxes</button>
@@ -67,10 +129,6 @@
         <button id="btnReport">Product report</button>
         <button id="btnAll" class="primary">Run all analysis</button>
       </div>
-    </section>
-
-    <section class="results-section full" aria-live="polite">
-      <div class="section-heading"><div><p class="eyebrow">VISITOR OUTPUT</p><h2>Analysis</h2></div></div>
       <div id="output"><p class="empty">Run an analysis to see order results here.</p></div>
     </section>
   </main>
