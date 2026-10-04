@@ -3,53 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SmartCart – Visitor Pattern Demo</title>
+  <meta name="theme-color" content="#f4f5f0">
+  <meta name="description" content="A polished shopping cart demo powered by the Visitor design pattern.">
+  <title>Cart | Store Operations Demo</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>SmartCart</h1>
-    <p>E-commerce product management, built on the Visitor design pattern.</p>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">STORE OPERATIONS / DEMO</p>
+      <h1>Cart<span>.</span></h1>
+      <p class="intro">A considered way to manage products, pricing and order analysis.</p>
+    </div>
+    <div class="header-note"><span class="status-dot"></span> Visitor pattern active</div>
   </header>
 
   <main>
     <section class="panel">
-      <h2>Add a product</h2>
+      <div class="section-heading"><div><p class="eyebrow">INVENTORY</p><h2>Add a product</h2></div></div>
       <form id="addForm" novalidate>
         <label>Type
           <select id="type"><option>Book</option><option>Electronics</option><option>Clothing</option><option>Grocery</option></select>
         </label>
-        <label>Product ID<input id="id" type="text"></label>
-        <label>Product name<input id="name" type="text"></label>
-        <label>Price<input id="price" type="number" step="any" min="0"></label>
-        <label>Quantity<input id="qty" type="number" step="1" min="1"></label>
+        <label>Product ID<input id="id" type="text" placeholder="e.g. B005" autocomplete="off"></label>
+        <label>Product name<input id="name" type="text" placeholder="Enter a product name" autocomplete="off"></label>
+        <div class="field-row">
+          <label>Price<input id="price" type="number" step="any" min="0" placeholder="0.00"></label>
+          <label>Quantity<input id="qty" type="number" step="1" min="1" placeholder="1"></label>
+        </div>
         <div id="extra" class="extra"></div>
         <div class="actions">
           <button type="submit" class="primary">Add product</button>
-          <button type="button" id="demo">Load demo products</button>
+          <button type="button" id="demo" class="secondary">Load demo</button>
         </div>
       </form>
     </section>
 
-    <section class="panel">
-      <h2>Cart</h2>
+    <section class="panel cart-panel">
+      <div class="section-heading cart-heading">
+        <div><p class="eyebrow">CURRENT ORDER</p><h2>Shopping cart</h2></div>
+        <div class="cart-heading-actions"><span class="count-badge" id="productCount">0 products</span><button type="button" id="btnClearCart" class="link">Clear cart</button></div>
+      </div>
+      <div class="summary" aria-live="polite">
+        <div><span>Units</span><strong id="unitCount">0</strong></div>
+        <div><span>Cart value</span><strong id="cartValue">0.00</strong></div>
+      </div>
+      <div class="table-tools">
+        <label class="search-label"><span class="sr-only">Search cart</span><input id="cartSearch" type="search" placeholder="Search products" autocomplete="off"></label>
+        <label class="filter-label"><span class="sr-only">Filter by category</span><select id="categoryFilter"><option value="">All categories</option><option>Book</option><option>Electronics</option><option>Clothing</option><option>Grocery</option></select></label>
+        <label class="sort-label"><span class="sr-only">Sort products</span><select id="sortProducts"><option value="default">Default order</option><option value="name">Name A-Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select></label>
+      </div>
       <div class="scroll">
         <table>
-          <thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Qty</th><th></th></tr></thead>
+          <thead><tr><th>Product</th><th>Category</th><th class="n">Price</th><th class="n">Qty</th><th class="n">Subtotal</th><th></th></tr></thead>
           <tbody id="cartBody"></tbody>
         </table>
       </div>
       <div class="actions ops">
-        <button id="btnDiscount">Calculate discounts</button>
-        <button id="btnTax">Calculate taxes</button>
-        <button id="btnShipping">Calculate shipping</button>
-        <button id="btnInvoice">Generate invoice</button>
-        <button id="btnReport">Generate product report</button>
-        <button id="btnAll" class="primary">Run complete analysis</button>
+        <button id="btnDiscount">Discounts</button>
+        <button id="btnTax">Taxes</button>
+        <button id="btnShipping">Shipping</button>
+        <button id="btnInvoice">Invoice</button>
+        <button id="btnReport">Product report</button>
+        <button id="btnAll" class="primary">Run all analysis</button>
       </div>
     </section>
 
-    <section class="panel full" aria-live="polite"><div id="output"><p class="empty">Results appear here after you run a visitor.</p></div></section>
+    <section class="results-section full" aria-live="polite">
+      <div class="section-heading"><div><p class="eyebrow">VISITOR OUTPUT</p><h2>Analysis</h2></div></div>
+      <div id="output"><p class="empty">Run an analysis to see order results here.</p></div>
+    </section>
   </main>
 
   <div id="toast" role="status"></div>

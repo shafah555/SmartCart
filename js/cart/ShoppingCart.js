@@ -11,6 +11,12 @@ class ShoppingCart {
     if (i < 0) throw new Error('Product ID not found.');
     this.#products.splice(i, 1);
   }
+  adjustQuantity(id, amount) {
+    const product = this.#products.find((p) => p.id.toLowerCase() === id.toLowerCase());
+    if (!product) throw new Error('Product ID not found.');
+    product.setQuantity(product.quantity + amount);
+  }
+  clear() { this.#products.length = 0; }
   get products() { return [...this.#products]; }
   isEmpty() { return this.#products.length === 0; }
   acceptVisitor(visitor) {

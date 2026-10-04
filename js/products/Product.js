@@ -9,6 +9,10 @@ class Product {
   get name() { return this.#name; }
   get price() { return this.#price; }
   get quantity() { return this.#quantity; }
+  setQuantity(quantity) {
+    if (!Number.isInteger(quantity) || quantity <= 0) throw new Error('Quantity must be a whole number above zero.');
+    this.#quantity = quantity;
+  }
   get subtotal() { return this.#price * this.#quantity; }
   get category() { throw new Error('category not implemented'); }
   accept(visitor) { throw new Error('accept() not implemented'); }
