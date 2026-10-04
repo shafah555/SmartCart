@@ -1,37 +1,16 @@
-# SmartCart – E-Commerce Product Management & Analysis System
+# SmartCart – Visitor Design Pattern (HTML, CSS, JavaScript)
 
-A console application written in C++17 that demonstrates the **Visitor Design Pattern**.
+Run: open `index.html` in a browser (no build step, no dependencies).
+Publish: push to GitHub, then enable **Settings → Pages → Deploy from branch → main / root**.
 
-| Role | Class |
+| Pattern role | Class |
 |---|---|
-| Element | `Product` (`Book`, `Electronics`, `Clothing`, `Grocery`) |
+| Element | `Product` → `Book`, `Electronics`, `Clothing`, `Grocery` |
 | Visitor | `ProductVisitor` |
 | Concrete Visitors | `DiscountVisitor`, `TaxVisitor`, `ShippingVisitor`, `InvoiceVisitor`, `ProductReportVisitor` |
 | Object Structure | `ShoppingCart` |
-| Client | `main.cpp` |
+| Client | `js/main.js` |
 
-## Build and run
-
-Requires a C++17 compiler (g++, clang++ or MSVC).
-
-**Linux / macOS**
-
-    g++ -std=c++17 -o smartcart src/main.cpp src/products/*.cpp src/visitors/*.cpp src/cart/*.cpp
-    ./smartcart
-
-**Windows (MinGW g++)**
-
-    g++ -std=c++17 -o smartcart.exe src/main.cpp src/products/Book.cpp src/products/Electronics.cpp src/products/Clothing.cpp src/products/Grocery.cpp src/visitors/DiscountVisitor.cpp src/visitors/TaxVisitor.cpp src/visitors/ShippingVisitor.cpp src/visitors/InvoiceVisitor.cpp src/visitors/ProductReportVisitor.cpp src/cart/ShoppingCart.cpp
-    smartcart.exe
-
-**Using make**
-
-    make
-    ./smartcart
-
-## Quick demo
-
-1. Choose `13` (Load Demo Products)
-2. Choose `12` (Run Complete Analysis)
-
-All five visitors run on the same cart.
+Each product's `accept(visitor)` calls `visitor.visitBook(this)` (etc.) — double dispatch.
+Because JavaScript has no overloading, `visit(Book&)` is named `visitBook(book)`.
+Tax and discount rates are simulated demo values.

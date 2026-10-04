@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartCart – Visitor Pattern Demo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>SmartCart</h1>
+    <p>E-commerce product management, built on the Visitor design pattern.</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Add a product</h2>
+      <form id="addForm" novalidate>
+        <label>Type
+          <select id="type"><option>Book</option><option>Electronics</option><option>Clothing</option><option>Grocery</option></select>
+        </label>
+        <label>Product ID<input id="id" type="text"></label>
+        <label>Product name<input id="name" type="text"></label>
+        <label>Price<input id="price" type="number" step="any" min="0"></label>
+        <label>Quantity<input id="qty" type="number" step="1" min="1"></label>
+        <div id="extra" class="extra"></div>
+        <div class="actions">
+          <button type="submit" class="primary">Add product</button>
+          <button type="button" id="demo">Load demo products</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Cart</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Qty</th><th></th></tr></thead>
+          <tbody id="cartBody"></tbody>
+        </table>
+      </div>
+      <div class="actions ops">
+        <button id="btnDiscount">Calculate discounts</button>
+        <button id="btnTax">Calculate taxes</button>
+        <button id="btnShipping">Calculate shipping</button>
+        <button id="btnInvoice">Generate invoice</button>
+        <button id="btnReport">Generate product report</button>
+        <button id="btnAll" class="primary">Run complete analysis</button>
+      </div>
+    </section>
+
+    <section class="panel full" aria-live="polite"><div id="output"><p class="empty">Results appear here after you run a visitor.</p></div></section>
+  </main>
+
+  <div id="toast" role="status"></div>
+
+  <!-- Load order matters: base classes first, client last. -->
+  <script src="js/utils.js"></script>
+  <script src="js/products/Product.js"></script>
+  <script src="js/products/Book.js"></script>
+  <script src="js/products/Electronics.js"></script>
+  <script src="js/products/Clothing.js"></script>
+  <script src="js/products/Grocery.js"></script>
+  <script src="js/visitors/ProductVisitor.js"></script>
+  <script src="js/visitors/DiscountVisitor.js"></script>
+  <script src="js/visitors/TaxVisitor.js"></script>
+  <script src="js/visitors/ShippingVisitor.js"></script>
+  <script src="js/visitors/InvoiceVisitor.js"></script>
+  <script src="js/visitors/ProductReportVisitor.js"></script>
+  <script src="js/cart/ShoppingCart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
