@@ -1,0 +1,12 @@
+# Build output
+smartcart
+smartcart.exe
+*.o
+*.obj
+build/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
